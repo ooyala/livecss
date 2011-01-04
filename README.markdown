@@ -6,7 +6,7 @@ This enables the One True Workflow that we've all lusted after: to have your bro
 
 Usage
 -----
-Just include this JavaScript file in your page and then call this function:
+Just include livecss.js in your page and then call this function:
 
     livecss.watchAll() - starts polling all <link> tags in the current page for changes.
 
@@ -24,7 +24,7 @@ Consider adding a development querystring parameter to your page and initiate li
 
 Contributing
 ------------
-Feel free create tickets for enhancement ideas, or just fork and submit a pull request. It would be great if this could be modified to work in IE (7 or 8).
+Feel free create tickets for enhancement ideas, or just fork and submit a pull request. It would be great if this could be modified to work in IE 7 or 8.
 
 License
 -------
