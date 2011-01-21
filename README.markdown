@@ -24,7 +24,7 @@ Consider adding a development querystring parameter to your page and initiate li
 
 Contributing
 ------------
-Feel free create tickets for enhancement ideas, or just fork and submit a pull request. This has been tested in Firefox and Webkit.
+Feel free create tickets for enhancement ideas, or just fork and submit a pull request.
 
 License
 -------
