@@ -26,8 +26,8 @@ var livecss = {
     var timerId = setInterval(this.proxy(function() {
       var linkElements = document.getElementsByTagName("link");
       for (var i = 0; i < linkElements.length; i++)
-        if (linkElements[i].getAttribute("rel") == "stylesheet" && 
-            linkElements[i].getAttribute("href").search(/^\//) == 0)
+      if (linkElements[i].getAttribute("rel") == "stylesheet" && 
+        this.isLocalUrl(linkElements[i].getAttribute("href"))) 
           this.refreshLinkElement(linkElements[i]);
     }), this.pollFrequency);
     this.watchTimers["all"] = timerId;
@@ -122,6 +122,13 @@ var livecss = {
     // cssElement.sheet.cssRules will throw an error in firefox when the css file is not yet loaded.
     try { return (cssElement.sheet && cssElement.sheet.cssRules.length > 0); } catch(error) { }
     return false;
+  },
+
+  /* returns true for local urls such as: '/screen.css', 'http://mydomain.com/screen.css' */
+  isLocalUrl: function(url) {
+    var regexp = new RegExp("^\/|^" + 
+      document.location.protocol + "//" + document.location.host);
+    return (url.search(regexp) == 0);
   },
 
   /*
