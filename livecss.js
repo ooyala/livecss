@@ -26,7 +26,7 @@ var livecss = {
     var timerId = setInterval(this.proxy(function() {
       var linkElements = document.getElementsByTagName("link");
       for (var i = 0; i < linkElements.length; i++)
-        if (linkElements[i].getAttribute("rel") == "stylesheet")
+        if (linkElements[i].getAttribute("rel") == "stylesheet") && linkElements[i].getAttribute("media") == "screen"
           this.refreshLinkElement(linkElements[i]);
     }), this.pollFrequency);
     this.watchTimers["all"] = timerId;
