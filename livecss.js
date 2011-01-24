@@ -25,9 +25,12 @@ var livecss = {
     this.unwatchAll();
     var timerId = setInterval(this.proxy(function() {
       var linkElements = document.getElementsByTagName("link");
-      for (var i = 0; i < linkElements.length; i++)
-        if (linkElements[i].getAttribute("rel") == "stylesheet")
+      var validMediaTypes = ["screen", "handheld", "all", ""];
+      for (var i = 0; i < linkElements.length; i++) {
+        var media = (linkElements[i].getAttribute("media") || "").toLowerCase();
+        if (linkElements[i].getAttribute("rel") == "stylesheet" && validMediaTypes.indexOf(media) >= 0)
           this.refreshLinkElement(linkElements[i]);
+      }
     }), this.pollFrequency);
     this.watchTimers["all"] = timerId;
   },
