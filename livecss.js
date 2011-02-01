@@ -26,10 +26,20 @@ var livecss = {
     var timerId = setInterval(this.proxy(function() {
       var linkElements = document.getElementsByTagName("link");
       var validMediaTypes = ["screen", "handheld", "all", ""];
+      var media;
+      var isValid;
       for (var i = 0; i < linkElements.length; i++) {
-        var media = (linkElements[i].getAttribute("media") || "").toLowerCase();
-        if (linkElements[i].getAttribute("rel") == "stylesheet" && validMediaTypes.indexOf(media) >= 0)
-          this.refreshLinkElement(linkElements[i]);
+        media = (linkElements[i].getAttribute("media") || "").toLowerCase();
+        isValid = false;
+        for (var j = 0; j < validMediaTypes.length; j++){
+        	if (validMediaTypes[j] == media){
+        		isValid = true;
+        		break;
+      		}
+        }
+        if (linkElements[i].rel == "stylesheet" && isValid){
+        	this.refreshLinkElement(linkElements[i]);
+        }
       }
     }), this.pollFrequency);
     this.watchTimers["all"] = timerId;
@@ -71,7 +81,7 @@ var livecss = {
   replaceLinkElement: function(linkElement, stylesheetUrl) {
     var parent = linkElement.parentNode;
     var sibling = linkElement.nextSibling;
-    var url = this.addCacheBust(linkElement.getAttribute("href"));
+    var url = this.addCacheBust(linkElement.href);
 
     var newLinkElement = document.createElement("link");
     newLinkElement.href = url;
