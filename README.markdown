@@ -16,6 +16,8 @@ If you want more fine grained control over which CSS is being autoreloaded:
     livecss.unwatchAll()
     livecss.unwatch(linkElement)
 
+For convenience, livecss will call watchAll() right away if the page has "startlivecss=true" in the URL's query string.
+
 Tips
 ----
 Make sure your server is setting a valid **last-modified** header for its CSS responses. Livecss detects new CSS by frequently making a HEAD request to the URLs referenced in the &lt;link&gt; tags on the page, and it reloads the files which have a recent last-modified header. If your last-modified header is blank or always set to "now", the CSS will continuously reload, once per second. This will put extra load on the browser.

@@ -10,6 +10,9 @@
  * livecss.watch(linkElement) - start watching a single <link> element for changes.
  * livecss.unwatchAll()
  * livecss.unwatch(linkElement)
+ *
+ * For convenience, livecss will call watchAll() right away if the page has "startlivecss=true" in the URL's
+ * query string.
  */
 var livecss = {
   // How often to poll for changes to the CSS.
@@ -139,3 +142,6 @@ var livecss = {
     return function() { return fn.apply(self, []); };
   }
 };
+
+if (window.location.search.indexOf("startlivecss=true") >= 0)
+  window.addEventListener("load", function() { livecss.watchAll(); }, false);
