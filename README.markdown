@@ -24,6 +24,18 @@ Make sure your server is setting a valid **last-modified** header for its CSS re
 
 Consider adding a development querystring parameter to your page and initiate livecss only when that querystring parameter is present. Otherwise, the polling from livecss can generate a lot of server log noise, which is annoying when you're hacking on backend code.
 
+Bookmarklet
+-----------
+You can paste this code snippet into your URL bar (or create a bookmark out of it) to start livecss on any page you're viewing.
+
+    javascript:(function(){
+      var s=document.createElement('script');
+      s.type='text/javascript';
+      s.src='https://github.com/ooyala/livecss/raw/master/livecss.js';
+      s.addEventListener('load', function() { livecss.watchAll(); }, false);
+      document.getElementsByTagName('head')[0].appendChild(s);
+    })()
+
 Contributing
 ------------
 Feel free create tickets for enhancement ideas, or just fork and submit a pull request.
