@@ -31,8 +31,9 @@ var livecss = {
       var validMediaTypes = ["screen", "handheld", "all", ""];
       for (var i = 0; i < linkElements.length; i++) {
         var media = (linkElements[i].getAttribute("media") || "").toLowerCase();
-        if (linkElements[i].getAttribute("rel") == "stylesheet" && validMediaTypes.indexOf(media) >= 0 &&
-            this.isLocalUrl(linkElements[i].getAttribute("href"))) {
+        if (linkElements[i].getAttribute("rel") == "stylesheet"
+            && livecss.indexOf(validMediaTypes, media) >= 0
+            && this.isLocalUrl(linkElements[i].getAttribute("href"))) {
           this.refreshLinkElement(linkElements[i]);
         }
       }
@@ -76,7 +77,7 @@ var livecss = {
   replaceLinkElement: function(linkElement, stylesheetUrl) {
     var parent = linkElement.parentNode;
     var sibling = linkElement.nextSibling;
-    var url = this.addCacheBust(linkElement.getAttribute("href"));
+    var url = this.addCacheBust(linkElement.href);
 
     var newLinkElement = document.createElement("link");
     newLinkElement.href = url;
@@ -91,7 +92,8 @@ var livecss = {
     // for <link> elements.
     var loadingTimer = setInterval(this.proxy(function() {
       if (!this.isCssElementLoaded(newLinkElement)) return;
-      console.log("CSS refreshed:", this.removeCacheBust(url));
+      if (typeof(console) != "undefined")
+        console.log("CSS refreshed:", this.removeCacheBust(url));
       clearInterval(loadingTimer);
       delete this.outstandingRequests[this.removeCacheBust(url)];
       parent.removeChild(linkElement);
@@ -149,8 +151,19 @@ var livecss = {
   proxy: function(fn) {
     var self = this;
     return function() { return fn.apply(self, []); };
+  },
+
+  /* Unfortunately IE7 doesn't have this built-in. */
+  indexOf: function(array, item) {
+    for (var i = 0; i < array.length; i++) { if (array[i] == item) return i; }
+    return -1;
+  },
+
+  /* A utility function for abstracting the difference between event listening in IE and other browsers. */
+  addEventListener: function(object, event, fn) {
+    object.attachEvent ? object.attachEvent("on" + event, fn) : object.addEventListener(event, fn, false);
   }
 };
 
-if (window.location.search.indexOf("startlivecss=true") >= 0)
-  window.addEventListener("load", function() { livecss.watchAll(); }, false);
+if (window.location.search.toString().indexOf("startlivecss=true") >= 0)
+  livecss.addEventListener(window, "load", function() { livecss.watchAll(); });

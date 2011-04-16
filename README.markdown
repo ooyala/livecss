@@ -46,4 +46,4 @@ Licensed under the [MIT license](http://www.opensource.org/licenses/mit-license.
 
 Credits
 -------
-Phil Crosby
+Phil Crosby (twitter @philcrosby)
