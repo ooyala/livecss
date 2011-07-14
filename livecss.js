@@ -33,7 +33,7 @@ var livecss = {
         var media = (linkElements[i].getAttribute("media") || "").toLowerCase();
         if (linkElements[i].getAttribute("rel") == "stylesheet"
             && livecss.indexOf(validMediaTypes, media) >= 0
-            && this.isLocalUrl(linkElements[i].getAttribute("href"))) {
+            && this.isLocalLink(linkElements[i])) {
           this.refreshLinkElement(linkElements[i]);
         }
       }
@@ -133,8 +133,16 @@ var livecss = {
     return false;
   },
 
-  /* returns true for local urls such as: '/screen.css', 'http://mydomain.com/screen.css' */
-  isLocalUrl: function(url) {
+  /* returns true for local urls such as: '/screen.css', 'http://mydomain.com/screen.css'
+	May miss relative urls such as 'css/screen.css' on older browsers
+  */
+  isLocalLink: function(linkElement) {
+	var url = null;
+	//On all tested browsers, this javascript property returns a normalized URL
+	if(linkElement.href) url = linkElement.href; 
+	 //Fallback if the above property is nonexistant (probably an elderly IE). Note that this will provide EXACTLY the attribute set, it will not be normalized as above.
+	 //This will produce a false negative on entirely relative urls, e.g. "css/default.css"
+	else url = linkElement.getAttribute("href");
     var regexp = new RegExp("^\/|^" +
       document.location.protocol + "//" + document.location.host);
     return (url.search(regexp) == 0);
