@@ -33,7 +33,7 @@ var livecss = {
         var media = (linkElements[i].getAttribute("media") || "").toLowerCase();
         if (linkElements[i].getAttribute("rel") == "stylesheet"
             && livecss.indexOf(validMediaTypes, media) >= 0
-            && this.isLocalUrl(linkElements[i].getAttribute("href"))) {
+            && this.isLocalLink(linkElements[i])) {
           this.refreshLinkElement(linkElements[i]);
         }
       }
@@ -133,8 +133,11 @@ var livecss = {
     return false;
   },
 
-  /* returns true for local urls such as: '/screen.css', 'http://mydomain.com/screen.css' */
-  isLocalUrl: function(url) {
+  /* returns true for local urls such as: '/screen.css', 'http://mydomain.com/screen.css', 'css/screen.css'
+  */
+  isLocalLink: function(linkElement) {
+  	//On all tested browsers, this javascript property returns a normalized URL
+	var url = linkElement.href;
     var regexp = new RegExp("^\/|^" +
       document.location.protocol + "//" + document.location.host);
     return (url.search(regexp) == 0);
