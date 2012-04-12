@@ -10,7 +10,7 @@
  * livecss.watch(linkElement) - start watching a single <link> element for changes.
  * livecss.unwatchAll()
  * livecss.unwatch(linkElement)
- *
+ * asdasdasd
  * For convenience, livecss will call watchAll() right away if the page has "startlivecss=true" in the URL's
  * query string.
  */
@@ -136,8 +136,8 @@ var livecss = {
   /* returns true for local urls such as: '/screen.css', 'http://mydomain.com/screen.css', 'css/screen.css'
   */
   isLocalLink: function(linkElement) {
-  	//On all tested browsers, this javascript property returns a normalized URL
-	var url = linkElement.href;
+    //On all tested browsers, this javascript property returns a normalized URL
+    var url = linkElement.href;
     var regexp = new RegExp("^\/|^" +
       document.location.protocol + "//" + document.location.host);
     return (url.search(regexp) == 0);
@@ -147,8 +147,12 @@ var livecss = {
    * Adds and removes a "cache_bust" querystring parameter to the given URLs. This is so we always bust
    * through the browser's cache when checking for updated CSS.
    */
-  addCacheBust: function(url) { return this.removeCacheBust(url) + "?cache_bust=" + (new Date()).getTime(); },
-  removeCacheBust: function(url) { return url.replace(/\?cache_bust=[^&]+/, ""); },
+  addCacheBust: function(url) {
+    var newUrl=this.removeCacheBust(url);
+    return newUrl + this.checkQueryString(newUrl) + "cache_bust=" + (new Date()).getTime();
+  },
+  removeCacheBust: function(url) { return url.replace(/[\?|&]cache_bust=[^&]+/, ""); },
+  checkQueryString: function(url) { return url.indexOf('?') === -1 ? '?' : '&';},
 
   /* A utility method to bind the value of "this". Equivalent to jQuery's proxy() function. */
   proxy: function(fn) {

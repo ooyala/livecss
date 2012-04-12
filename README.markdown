@@ -31,7 +31,7 @@ You can paste this code snippet into your URL bar (or create a bookmark out of i
     javascript:(function(){
       var s=document.createElement('script');
       s.type='text/javascript';
-      s.src='https://github.com/ooyala/livecss/raw/master/livecss.js';
+      s.src='https://github.com/kuddl/livecss/raw/master/livecss.js';
       s.addEventListener('load', function() { livecss.watchAll(); }, false);
       document.getElementsByTagName('head')[0].appendChild(s);
     })()
